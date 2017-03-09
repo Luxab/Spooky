@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+#include <thread>
 
 using namespace std;
 
@@ -55,11 +56,16 @@ void printSkeleton(int rows, int cols)
       {
         cout << skelly.s[i];
       }
-      l33tSleep(1 + rows/2);
+      l33tSleep(2.5 + rows/2);
       cout << endl;
     }
-    l33tSleep(10);
+    l33tSleep(12);
   }
+}
+
+void newSpook(const char *c)
+{
+  system(c);
 }
 
 int main(int argc, char* argv[])
@@ -69,26 +75,28 @@ int main(int argc, char* argv[])
   {
     int row = stoi(argv[1]), col = stoi(argv[2]);
 
-    //if (row<6 && col<4)
+    int r = 1, c = 1;
+    while (r<row && c <col && row<8 && col<6)
     {
-      int r = row, c = col;
-      while (r>1 && c >1)
-      {
-        string s;
-        s+= "konsole -e ./runme ";
-        s+= to_string(row-1);
-        s+= " ";
-        s+= to_string(col-1);
+      string s;
+      s+= "konsole -e ./runme ";
+      s+= to_string(row+1);
+      s+= " ";
+      s+= to_string(col+1);
+      //setting up the next spook to run
 
-        //cout << s << endl;
-        //cout << " test message pls ignore" << endl;
+      const char *runchars = s.c_str();
 
-        const char *c = s.c_str();
-        system(c);
-        r--;
-        c--;
-      }
+      //running the next spook on a new thread!
+      //Multithreading capability!
+      thread *t = new thread(newSpook,runchars);
+
+      //wait for some of the spook to load before starting the next one
+      l33tSleep(c*20+r*5);
+      r++;
+      c++;
     }
+
     printSkeleton(row,col);
   }
   else

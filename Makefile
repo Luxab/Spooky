@@ -1,7 +1,7 @@
 CC = g++
 
 all:
-	$(CC) 'spooky2.cpp' -g -o runme
+	$(CC) 'spooky2.cpp' -lpthread -g -o runme 
 
 clean:
 	rm -f a
