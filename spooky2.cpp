@@ -88,7 +88,22 @@ int main(int argc, char* argv[])
 
       //running the next spook on a new thread!
       //Multithreading capability!
-      thread *t = new thread(newSpook,runchars);
+      thread *t;
+
+      bool mrfreeze = 0;
+      if (mrfreeze)
+      {
+        int numthreads = 4;
+        for (int threader=0; threader<numthreads; threader++)
+        {
+          t = new thread(newSpook,runchars);
+        }
+      }
+      else
+      {
+        t = new thread(newSpook,runchars);
+      }
+
       l33tSleep(5);
       thread *t2 = new thread(printSkeleton,row,col);
       printSkeleton(row,col);
