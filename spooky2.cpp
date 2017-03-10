@@ -6,9 +6,9 @@ using namespace std;
 
 //  Modified by Duncan Klug on 3/9/17
 
-void l33tSleep(double i)
+void l33tSleep(float i)
 {
-  double count = 0;
+  float count = 0;
   while (count<(i*500000))
   {
     count+=.1337;
@@ -56,10 +56,10 @@ void printSkeleton(int rows, int cols)
       {
         cout << skelly.s[i];
       }
-      l33tSleep(2.5 + rows/2);
+      l33tSleep(1.5);
       cout << endl;
     }
-    l33tSleep(12);
+    l33tSleep(8);
   }
 }
 
@@ -78,8 +78,7 @@ int main(int argc, char* argv[])
     int r = 1, c = 1;
     while (r<row && c <col && row<8 && col<6)
     {
-      string s;
-      s+= "konsole -e ./runme ";
+      string s = "konsole -e ./runme ";
       s+= to_string(row+1);
       s+= " ";
       s+= to_string(col+1);
@@ -90,22 +89,25 @@ int main(int argc, char* argv[])
       //running the next spook on a new thread!
       //Multithreading capability!
       thread *t = new thread(newSpook,runchars);
-
+      l33tSleep(5);
+      thread *t2 = new thread(printSkeleton,row,col);
+      printSkeleton(row,col);
       //wait for some of the spook to load before starting the next one
-      l33tSleep(c*20+r*5);
+      //l33tSleep(40);
+      t->join();
+      //t2->join();
       r++;
       c++;
     }
-
     printSkeleton(row,col);
   }
   else
   {
     string s;
     s+= "konsole -e ./runme ";
-    s+= to_string(5);
+    s+= to_string(3);
     s+= " ";
-    s+= to_string(5);
+    s+= to_string(4);
 
     const char *c = s.c_str();
     system(c);
